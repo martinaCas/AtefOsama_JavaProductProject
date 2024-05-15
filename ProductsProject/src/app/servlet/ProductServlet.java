@@ -15,10 +15,17 @@ public class ProductServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
+            throws ServletException, IOException {
+    try {
         List<Product> products = productDAO.getAllProducts();
-
+        
         request.setAttribute("products", products);
+        
         request.getRequestDispatcher("/WEB-INF/products.jsp").forward(request, response);
+    } catch (Exception e) {
+        e.printStackTrace(); 
+        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error");
     }
+}
+
 }
